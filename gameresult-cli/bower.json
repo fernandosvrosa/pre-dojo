@@ -1,0 +1,23 @@
+{
+  "name": "gameresult-cli",
+  "version": "0.0.0",
+  "homepage": "https://github.com/fernandosvrosa/pre-dojo",
+  "authors": [
+    "Fernando da Silva Rosa <fernandosr@ciandt.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.5.0",
+    "angular-route": "1.5.0",
+    "angular-resource": "1.5.0",
+    "bootstrap": "3.3",
+    "angular-base64-upload": "~0.1.17"
+  }
+}
