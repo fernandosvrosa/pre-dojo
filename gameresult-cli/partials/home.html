@@ -1,6 +1,6 @@
 <div class="jumbotron">
   <h1 class="text-center">
-    Welcome To Game Result!
+    Bem-vendo ao Game Result!
   </h1>
 </div>
 
@@ -12,17 +12,12 @@
         <input type="file" ng-model="file" name="file" base-sixty-four-input required onload="onLoad" maxsize="500" accept="text/*">
         <span class="help-block">
           <ul>
-            <li>required</li>
-            <li>maxsize = 500</li>
-            <li>accept = text/plain</li>
+            <li>required , maxsize = 500, accept = text/plain</li>
           </ul>
         </span>
       </div>
-      <div class="alert" ng-class="{'alert-danger': form.file.$invalid, 'alert-success': form.file.$valid}">
-        form.file.$error:
-        {{form.file.$error}}
-      </div>
-    <b>Model Value:</b>
+
+    <b>Itens para importar:</b>
     <table class="table table-bordered table-striped">
       <tr>
         <th>filename</th>
@@ -37,7 +32,7 @@
         <td>{{file.filesize / 1000}}</td>
         <td>{{file.base64.substring(0, 30)}}...</td>
         <td>
-          <button type="submit" class="btn btn-primary" ng-click="sendToServer(file)">Send</button>
+          <button type="submit" class="btn btn-primary" ng-click="sendToServer(file)">Enviar</button>
         </td>
       </tr>
       <tr>
@@ -47,4 +42,22 @@
       </tr>
     </table>
   </form>
+  
+  <div class="table-responsive">
+    <table class="table table-hover">
+        <tr>
+        <th>Game importado id</th>
+        </tr>
+        <tr ng-repeat="result in results ">
+            <td>
+                <a ng-href="#/{{result}}">{{result}}</a>
+            </td>
+        </tr>
+    </table>
+  </div>   
+  
+  
+  
+  
+  
   {{retorno}}

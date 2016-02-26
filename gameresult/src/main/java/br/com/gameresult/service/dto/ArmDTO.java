@@ -4,7 +4,7 @@ public class ArmDTO {
 
 	private String arm;
 
-	private int cont;
+	private Integer cont = 0;
 	
 	public ArmDTO(String arm) {
 		this.arm = arm;
@@ -14,7 +14,7 @@ public class ArmDTO {
 	public String getArm() {
 		return arm;
 	}
-	public int getCont() {
+	public Integer getCont() {
 		return cont;
 	}
 

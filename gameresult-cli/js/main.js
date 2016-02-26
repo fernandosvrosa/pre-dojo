@@ -11,6 +11,10 @@ angular.module('result', ['ngRoute', 'ngResource', 'naif.base64'])
     controller: 'HomeController'
   });
 
+  $routeProvider.when('/:GameId',{
+    templateUrl: 'partials/viewLog.html',
+    controller: 'ViewLogController'
+  });
 
   $routeProvider.otherwise({redirectTo: '/'});
 

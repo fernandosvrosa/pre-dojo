@@ -4,10 +4,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import br.com.gameresult.controller.response.GameResultResponse;
+import br.com.gameresult.dbo.ResultGames;
 import br.com.gameresult.exception.DateInvalidFormatException;
+import br.com.gameresult.exception.LogHasBeenProcessedException;
 import br.com.gameresult.service.TypeOfLineEnum;
 
 public class GameInProgressDTO {
@@ -19,8 +23,6 @@ public class GameInProgressDTO {
 	private Date finalDate;
 
 	private HashMap<String, PlayerDTO> historicalPlayers = new HashMap<String, PlayerDTO>();
-
-	private HashMap<String, ArmDTO> countArm = new HashMap<String, ArmDTO>();
 
 	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
 			"dd/MM/yyyy HH:mm:ss");
@@ -36,8 +38,18 @@ public class GameInProgressDTO {
 				throw new DateInvalidFormatException();
 			}
 			this.gameId = Long.parseLong(matcher.group(4));
+			
+			logHasBeenProcessed(gameId);
 
 		}
+	}
+
+	private void logHasBeenProcessed(Long gameId) {
+		List<GameResultResponse> result = ResultGames.getGameById(gameId);
+		if (result != null && result.size() > 0) {
+			throw new LogHasBeenProcessedException(gameId);
+		}
+		
 	}
 
 	public Long getGameId() {
@@ -75,22 +87,25 @@ public class GameInProgressDTO {
 			} catch (ParseException e) {
 				throw new DateInvalidFormatException();
 			}
-			addPlayerKilledInGame(matcher.group(3), data);
+			String playerKilled = matcher.group(3);
+			addPlayerKilledInGame(playerKilled, data);
 			addDeadPayerInGame(matcher.group(5));
-			addArmUse(matcher.group(7));
+			addArmUse(matcher.group(7), playerKilled);
 		}
 
 	}
 
-	private void addArmUse(String armUse) {
-		ArmDTO arm = countArm.get(armUse);
-		if (arm != null) {
-			arm.count();
-		} else {
-			arm = new ArmDTO(armUse);
+	public void setMachineKiller(String line) {
+		Pattern pattern = TypeOfLineEnum.MACHINE_KILLER.getPattern();
+		Matcher matcher = pattern.matcher(line);
+		if (matcher.find()) {
+			addDeadPayerInGame(matcher.group(5));
 		}
-		countArm.put(armUse, arm);
+	}
 
+	private void addArmUse(String armUse, String playerKilled) {
+		PlayerDTO Killed = historicalPlayers.get(playerKilled);
+		Killed.addArmUse(armUse);
 	}
 
 	private void addDeadPayerInGame(String deadPayer) {
@@ -116,4 +131,22 @@ public class GameInProgressDTO {
 
 	}
 
+	public void setEndGame(String line) {
+		Pattern pattern = TypeOfLineEnum.START_GAME.getPattern();
+		Matcher matcher = pattern.matcher(line);
+
+		if (matcher.find()) {
+			try {
+				this.finalDate = simpleDateFormat.parse(matcher.group(1));
+			} catch (ParseException e) {
+				throw new DateInvalidFormatException();
+			}
+		}
+		
+	}
+	
+	public HashMap<String, PlayerDTO>  getHistoricalPlayers() {
+		return this.historicalPlayers;
+	}
+	
 }

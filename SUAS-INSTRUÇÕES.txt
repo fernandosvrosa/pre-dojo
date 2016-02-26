@@ -1,2 +1,14 @@
-Coloque aqui suas instruções ou comentários que ache útil/relevantes para possamos ler 
-quando estivermos avaliando a sua solução
+para usar o projeto deve ter o java 8 instalado. 
+
+executar o mvn eclipse:eclipse na pasta gameresult
+
+importar no eclipse e executar o main class GameresultApplication
+
+agora abra o index.html do pasta gameresult-cli. 
+
+importe o arquivo de log e ele gravara em um lista static do sistema. 
+
+apos gravar ele disponibilizara uma lista com o id do log importado que ira exibir o resultado da analise do log. 
+
+
+

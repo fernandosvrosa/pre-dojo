@@ -1,0 +1,36 @@
+<div class="jumbotron">
+  <h1 class="text-center">
+    Lista do jogo {{id}}
+  </h1>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <tr>
+        <th>Jogador</th>
+        <th>Matou</th>
+        <th>Morreu</th>
+        <th>Award</th>
+        <th>Arma que mais utilizou<th>
+        </tr>
+        <tr ng-repeat="game in gameResult | orderBy:'-killed' ">
+            <td>
+                {{game.playerName}}
+            </td>
+            <td>
+                {{game.killed}}
+            </td>
+            <td>
+                {{game.died}}
+            </td>
+            <td>
+                {{game.award}}
+            </td>
+            <td>
+                {{game.weaponLiked}}
+            </td>    
+        </tr>
+    </table>
+  </div>   
+  
+  <a ng-href="#/" class="btn btn-primary">Voltar</a>
